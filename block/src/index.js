@@ -5,6 +5,7 @@ const handlebars = require('express-handlebars').engine;
 const app = express();
 const port = 3000;
 
+
 //HTTP logger
 app.use(morgan('combined'));
 
@@ -15,11 +16,12 @@ app.engine('hbs', handlebars({
 app.set('view engine', 'hbs');
 app.set('views', path.join(__dirname, 'resources/views'));
 
+//Config Static file
+// http://localhost:3000/img/avatar.jpg
+app.use(express.static(path.join(__dirname, 'public')))
+console.log("PATH: " + path.join(__dirname, 'public'));//D:\FALL_2022_FPT\FONT_END\F8\F8_NODEJS\block\src\public
+
 app.get('/', (req, res) => {
-  // var a = 1;
-  // var b = 2;
-  // var c = a+b;
-  // return res.send(`<h1>'Hello World!'</h1>`)
   res.render('home');
 });
 
