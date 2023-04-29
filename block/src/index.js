@@ -9,11 +9,11 @@ const port = 3000;
 app.use(morgan('combined'));
 
 //Template engine
-app.engine('handlebars', handlebars());
-app.set('view engine', 'handlebars');
+app.engine('hbs', handlebars({
+  extname:".hbs"
+}));
+app.set('view engine', 'hbs');
 app.set('views', path.join(__dirname, 'resources/views'));
-
-console.log('PATH:', path.join(__dirname, 'resources/views'));
 
 app.get('/', (req, res) => {
   // var a = 1;
