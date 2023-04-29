@@ -1,0 +1,9 @@
+/* npm run watch */
+@import 'variables';
+h1{
+    color: red;
+}
+h2{
+    color: $green-color;
+}
+// "watch": "node-sass --watch src/resources/scss/app.scss src/public/css/app.css",
