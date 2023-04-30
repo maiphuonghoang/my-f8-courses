@@ -5,6 +5,7 @@ const handlebars = require('express-handlebars').engine;
 const app = express();
 const port = 3000;
 
+const route = require('./routes');
 
 //HTTP logger
 // app.use(morgan('combined'));
@@ -26,20 +27,10 @@ app.use(express.urlencoded({
 }))//middleware xử lí dữ liệu form submit 
 app.use(express.json())//XMLHttpRequest, fetch, axios 
 
-app.get('/', (req, res) => {
-  res.render('home');
-});
+// Routes init 
+route(app);
 
-app.get('/news', (req, res) => {
-  res.render('news');
-});
-app.get('/search', (req, res) => {
-  res.render('search');
-});
-app.post('/search', (req, res) => {
-  console.log("req.body "+req.body);
-  res.render('search');
-});
+
 app.listen(port, () => console.log(`Example app listening on port ${port}`));
 
 
