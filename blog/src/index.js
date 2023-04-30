@@ -7,7 +7,7 @@ const port = 3000;
 
 
 //HTTP logger
-app.use(morgan('combined'));
+// app.use(morgan('combined'));
 
 //Template engine
 app.engine('hbs', handlebars({
@@ -21,18 +21,23 @@ app.set('views', path.join(__dirname, 'resources/views'));
 app.use(express.static(path.join(__dirname, 'public')))
 console.log("PATH: " + path.join(__dirname, 'public'));//D:\FALL_2022_FPT\FONT_END\F8\F8_NODEJS\block\src\public
 
+app.use(express.urlencoded({
+  extended: true,
+}))//middleware xử lí dữ liệu form submit 
+app.use(express.json())//XMLHttpRequest, fetch, axios 
+
 app.get('/', (req, res) => {
   res.render('home');
 });
 
 app.get('/news', (req, res) => {
-  console.log(req.query);
   res.render('news');
 });
 app.get('/search', (req, res) => {
   res.render('search');
 });
 app.post('/search', (req, res) => {
+  console.log("req.body "+req.body);
   res.render('search');
 });
 app.listen(port, () => console.log(`Example app listening on port ${port}`));
