@@ -19,12 +19,13 @@ app.engine('hbs', handlebars({
   extname:".hbs"
 }));
 app.set('view engine', 'hbs');
-app.set('views', path.join(__dirname, 'resources/views'));
+app.set('views', path.join(__dirname, 'resources','views'));
+//D:\FALL_2022_FPT\FONT_END\F8\F8_NODEJS\blog\src\resources\views
 
 //Config Static file
 // http://localhost:3000/img/avatar.jpg
 app.use(express.static(path.join(__dirname, 'public')))
-console.log("PATH: " + path.join(__dirname, 'public'));//D:\FALL_2022_FPT\FONT_END\F8\F8_NODEJS\block\src\public
+//D:\FALL_2022_FPT\FONT_END\F8\F8_NODEJS\block\src\public
 
 app.use(express.urlencoded({
   extended: true,
@@ -35,7 +36,7 @@ app.use(express.json())//XMLHttpRequest, fetch, axios
 route(app);
 
 
-app.listen(port, () => console.log(`Example app listening on port ${port}`));
+app.listen(port, () => console.log(`App listening on port ${port}`));
 
 
 

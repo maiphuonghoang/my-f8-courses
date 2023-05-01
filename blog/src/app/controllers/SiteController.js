@@ -1,19 +1,23 @@
 const Course = require('../models/Course')
 class SiteController {
     //[GET] /site
-    index(req, res){
+    index(req, res, next){
         // res.json({
         //     name:'test'
         // })
 
         // Course.find({}, function(err, courses){
         //     if(!err) res.json(courses)
-        //     else res.status(400).json({error:'ERROR'})
-        // }) ===> MongooseError: Model.find() no longer accepts a callback
+        //     else next(err)
+        // }) 
+        //===> MongooseError: Model.find() no longer accepts a callback
 
         Course.find({}) 
-        .then(courses => {res.json(courses)}) 
-        .catch(err => {res.status(400).json({error: "ERROR..!!!"})})
+        .then(courses => {
+            courses = courses.map(course =>course.toObject())
+            res.render('home', {courses})
+        }) 
+        .catch(next)
     }
 
     //[GET] /search 
