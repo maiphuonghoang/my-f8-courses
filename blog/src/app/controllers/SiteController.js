@@ -3,16 +3,6 @@ const Course = require('../models/Course')
 class SiteController {
     //[GET] /site
     index(req, res, next){
-        // res.json({
-        //     name:'test'
-        // })
-
-        // Course.find({}, function(err, courses){
-        //     if(!err) res.json(courses)
-        //     else next(err)
-        // }) 
-        //===> MongooseError: Model.find() no longer accepts a callback
-
         Course.find({}) 
         .then(courses => {
             res.render('home', {

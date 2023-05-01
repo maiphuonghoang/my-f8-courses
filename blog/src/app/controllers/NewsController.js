@@ -10,3 +10,4 @@ class NewsController {
     }
 }
 module.exports = new NewsController;
+//Home, search, contact 
