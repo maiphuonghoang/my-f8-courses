@@ -1,5 +1,7 @@
+const { response } = require("express");
 const { mongooseToObject } = require("../../util/mongoose");
 const Course = require("../models/Course");
+const mongoose = require("../../util/mongoose");
 class CourseController {
   // [GET] /courses/:slug
   show(req, res, next) {
@@ -39,6 +41,15 @@ class CourseController {
       }))
       .catch(next)
       
+    }
+
+    // [PUT] /courses/:id
+    update(req, res, next) {
+      // res.json(req.body)
+      // mongoose Models Updating
+      Course.updateOne({_id: req.params.id}, req.body)
+        .then(()=> res.redirect('/me/stored-courses'))
+        .catch(next)
     }
 }
 module.exports = new CourseController();
