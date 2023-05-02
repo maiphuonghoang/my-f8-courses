@@ -2,6 +2,7 @@ const path = require('path');
 const express = require('express');
 const morgan = require('morgan');
 const handlebars = require('express-handlebars').engine;
+const methodOverride = require('method-override');
 const app = express();
 const port = 3000;
 
@@ -41,6 +42,9 @@ app.use(express.urlencoded({
   extended: true,
 }))//middleware xử lí dữ liệu form submit 
 app.use(express.json())//XMLHttpRequest, fetch, axios 
+
+//middleware điều hướng method mong muốn 
+app.use(methodOverride('_method'))
 
 // Routes init 
 route(app);

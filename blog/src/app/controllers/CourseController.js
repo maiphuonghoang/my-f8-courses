@@ -24,11 +24,21 @@ class CourseController {
     formData.image = `https://img.youtube.com/vi/${req.body.videoId}/sddefault.jpg`
     const course = new Course(formData);//đưa đối tượng {} muốn lưu vào 
     course.save()
-      .then(() => res.redirect('/'))
+      .then(() => res.redirect('/')) 
       .catch(err => {
 
-      })
-    
+      })    
   }
+
+    // [GET] /courses/:id/edit
+    edit(req, res, next) {
+      Course.findById(req.params.id)
+      .then(course => res.render("courses/edit", {
+        // cầm course ném sang view ở đối số thứ 2 
+        course: mongooseToObject(course)
+      }))
+      .catch(next)
+      
+    }
 }
 module.exports = new CourseController();
