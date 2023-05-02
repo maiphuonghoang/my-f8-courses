@@ -15,9 +15,19 @@ db.connect();
 // app.use(morgan('combined'));
 
 //Template engine
-app.engine('hbs', handlebars({
-  extname:".hbs"
+app.engine('hbs', 
+  handlebars({
+  extname:".hbs",
+  helpers: {
+    sum: (a, b) => a + b,
+  }
+  // Custom helper in handlebars.js, express-handlebars.js
+  // Express-handlebars override lại và cung cấp 1 key là helpers khi tạo instance của handlebars  
+
 }));
+
+
+
 app.set('view engine', 'hbs');
 app.set('views', path.join(__dirname, 'resources','views'));
 //D:\FALL_2022_FPT\FONT_END\F8\F8_NODEJS\blog\src\resources\views
@@ -37,6 +47,7 @@ route(app);
 
 
 app.listen(port, () => console.log(`App listening on port ${port}`));
+
 
 
 

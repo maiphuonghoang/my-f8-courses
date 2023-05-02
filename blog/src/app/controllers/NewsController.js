@@ -9,5 +9,5 @@ class NewsController {
         res.send('NEWS DETAIL')
     }
 }
-module.exports = new NewsController;
+module.exports = new NewsController();
 //Home, search, contact 
