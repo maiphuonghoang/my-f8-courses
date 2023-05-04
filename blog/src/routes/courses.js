@@ -9,6 +9,8 @@ router.get("/:slug", courseController.show)
 router.put("/:id", courseController.update)
 router.delete("/:id", courseController.destroy)
 router.patch("/:id/restore", courseController.restore)
+router.delete("/:id/force", courseController.forceDestroy)
+
 
 
 

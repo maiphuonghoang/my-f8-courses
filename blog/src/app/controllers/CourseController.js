@@ -22,12 +22,12 @@ class CourseController {
   // [POST] /courses/store
   store(req, res, next) {
     // console.log(res.json(req.body));
-    const formData = req.body;
-    formData.image = `https://img.youtube.com/vi/${req.body.videoId}/sddefault.jpg`;
-    const course = new Course(formData); //đưa đối tượng {} muốn lưu vào
+    // const formData = {...req.body};
+    req.body.image = `https://img.youtube.com/vi/${req.body.videoId}/sddefault.jpg`;
+    const course = new Course(req.body); //đưa đối tượng {} muốn lưu vào
     course
       .save()
-      .then(() => res.redirect("/"))
+      .then(() => res.redirect("/me/stored/courses"))
       .catch((err) => {});
   }
 
@@ -51,14 +51,13 @@ class CourseController {
       .then(() => res.redirect("/me/stored-courses"))
       .catch(next);
   }
-  // [DELETE] /courses/:id => HARD DELETE
-  /*
-  destroy(req, res, next) {
+  // [DELETE] /courses/:id => HARD DELETE 
+  destroyH(req, res, next) {
     Course.deleteOne({ _id: req.params.id })
       .then(() => res.redirect("back"))
       .catch(next);
   }
-  */
+  
   // [DELETE] /courses/:id => SOFT DELETE
   destroy(req, res, next) {
     Course.delete({ _id: req.params.id }) // add/set attribute delete:true
@@ -68,7 +67,14 @@ class CourseController {
 
   // [PATCH] /courses/:id/restore => SOFT DELETE
   restore(req, res, next) {
-    Course.restore({ _id: req.params.id }) // add/set attribute delete:true
+    Course.restore({ _id: req.params.id }) 
+      .then(() => res.redirect("back"))
+      .catch(next);
+  }
+
+  // [DELETE] /courses/:id/force => SOFT DELETE
+  forceDestroy(req, res, next) {
+    Course.deleteOne({ _id: req.params.id }) //the same hard delete 
       .then(() => res.redirect("back"))
       .catch(next);
   }
