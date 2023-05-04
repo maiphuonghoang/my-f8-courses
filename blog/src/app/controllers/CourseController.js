@@ -61,7 +61,14 @@ class CourseController {
   */
   // [DELETE] /courses/:id => SOFT DELETE
   destroy(req, res, next) {
-    Course.delete({ _id: req.params.id })// add/set attribute delete:true 
+    Course.delete({ _id: req.params.id }) // add/set attribute delete:true
+      .then(() => res.redirect("back"))
+      .catch(next);
+  }
+
+  // [PATCH] /courses/:id/restore => SOFT DELETE
+  restore(req, res, next) {
+    Course.restore({ _id: req.params.id }) // add/set attribute delete:true
       .then(() => res.redirect("back"))
       .catch(next);
   }

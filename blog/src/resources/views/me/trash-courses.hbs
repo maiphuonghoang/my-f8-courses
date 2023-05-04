@@ -22,7 +22,7 @@
         <td>{{this.level}}</td>
         <td>{{this.createdAt}}</td>
         <td>
-          <a href="/courses/{{this._id}}/edit" class="btn btn-link">Khôi phục</a>
+          <a href="" data-id="{{this._id}}" class="btn btn-link btn-restore">Khôi phục</a>
           <a href="" class="btn btn-link" data-id="{{this._id}}" data-toggle="modal"
             data-target="#delete-course-modal">Xóa vĩnh viễn</a>
 
@@ -31,7 +31,7 @@
       {{else}}
       <tr>
         <td colspan="5" class="text-center">
-          Thùng rác rỗng.
+          Thùng rác trống.
         </td>
 
       </tr>
@@ -40,11 +40,9 @@
   </table>
 </div>
 
-{{!-- Delete hidden form --}}
 
-<form method="POST" name="delete-course-form">
-</form>
-
+<form method="POST" name="delete-course-form"></form>
+<form method="POST" name="restore-course-form"></form>
 
 {{!-- Confirm delete course --}}
 <div class="modal" tabindex="-1" role="dialog" id="delete-course-modal">
@@ -70,6 +68,7 @@
   document.addEventListener("DOMContentLoaded", function () {
     var courseId;
     var deleteForm = document.forms['delete-course-form']
+    var restoreForm = document.forms['restore-course-form']
 
     // When dialog confirm clicked
     $('#delete-course-modal').on('show.bs.modal', function (event) {
@@ -84,5 +83,15 @@
       deleteForm.action = '/courses/' + courseId + '?_method=DELETE'
       deleteForm.submit();
     }
+
+    var restoreBtn = $('.btn-restore')
+    // Restore button clicked 
+    restoreBtn.click(function(e){
+      e.preventDefault()
+      console.log($(this).data('id'))
+      var courseId = $(this).data('id')
+      restoreForm.action = '/courses/' + courseId + '/restore?_method=PATCH'
+      restoreForm.submit();
+    })
   })
 </script>

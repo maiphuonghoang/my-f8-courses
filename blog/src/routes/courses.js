@@ -8,6 +8,8 @@ router.get("/:id/edit", courseController.edit)
 router.get("/:slug", courseController.show)
 router.put("/:id", courseController.update)
 router.delete("/:id", courseController.destroy)
+router.patch("/:id/restore", courseController.restore)
+
 
 
 
