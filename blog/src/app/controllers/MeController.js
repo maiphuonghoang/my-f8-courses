@@ -4,12 +4,30 @@ class MeController {
 
     //[GET] /me/stored/courses 
     storedCourses(req, res, next){
+        /*
+        Course.countDocumentsDeleted()
+            .then((deletedCount)=>{
+                console.log(deletedCount);
+            })
+            .catch(()=>{})
+
         // Course.find({deletedAt: null}) => soft delete if have attribute deletedAt in document DB 
         Course.find({})
             .then(courses=>res.render('me/stored-courses', {
                 courses: multipleMongooseToObject(courses)
             }))
             .catch(next)
+        */
+       
+        //hai phương thức trên bất đồng bộ nên gộp thành Promise.all 
+        //mảng các promise 
+        Promise.all([Course.find({}), Course.countDocumentsDeleted()])
+            .then(([courses, deletedCount])=> //destructuring 
+                res.render('me/stored-courses', {
+                    deletedCount,
+                    courses: multipleMongooseToObject(courses)
+                })
+            )
     }
 
         // [GET] /me/trash/courses 
