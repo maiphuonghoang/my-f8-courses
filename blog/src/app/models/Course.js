@@ -2,8 +2,8 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 const ObjectId = Schema.ObjectId;
 //add plugin mongoose-slug-generator
-var slug = require('mongoose-slug-updater')
-mongoose.plugin(slug);
+const slug = require('mongoose-slug-updater')
+const mongooseDelete = require('mongoose-delete');
 
 const Course = new Schema({
   name: {type: String, require: true},
@@ -18,5 +18,9 @@ const Course = new Schema({
 }, {
   timestamps: true
 });
+
+//  Add plugin 
+mongoose.plugin(slug);
+Course.plugin(mongooseDelete)
 
 module.exports = mongoose.model('Course', Course)
