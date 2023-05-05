@@ -1,10 +1,25 @@
 <div class="mt-4">
   <h3>Khóa học của tôi</h3>
   <a href="/me/trash/courses">Thùng rác ({{deletedCount}})</a>
+
+  <div class="mt-4 d-flex align-items-center">
+    <div class="form-check">
+      <input class="form-check-input" type="checkbox" value="" id="checkbox-all">
+      <label class="form-check-label" for="checkbox-all">
+        Chọn tất cả
+      </label>
+    </div>
+    <select class="form-control form-control-sm checkbox-select-all">
+      <option>-- Hành động --</option>
+      <option>Xóa</option>
+    </select>
+    <button class="btn btn-primary btn-sm disabled">Thực hiện</button>
+  </div>
+
   <table class="table mt-4">
     <thead>
       <tr>
-        <th scope="col">#</th>
+        <th scope="col" colspan="2">#</th>
         <th scope="col">Tên khóa học</th>
         <th scope="col">Trình độ</th>
         <th scope="col">Thời gian tạo</th>
@@ -16,7 +31,12 @@
       {{#each courses}}
       <tr>
         {{!-- dùng helpers mà template engine hỗ trợ --}}
-        <th scope="row">{{sum @index 1}}</th>
+        <td>
+          <div class="form-check">
+            <input class="form-check-input" type="checkbox" name="courseIds[]" value="{{this._id}}" id="">           
+          </div>
+        </td>
+        <td scope="row">{{sum @index 1}}</td>
         <td>{{this.name}}</td>
         <td>{{this.level}}</td>
         <td>{{this.createdAt}}</td>
@@ -83,5 +103,34 @@
       deleteForm.action = '/courses/' + courseId + '?_method=DELETE'
       deleteForm.submit();
     }
+
+    //Checkbox all clicked 
+    var checkboxAll = $('#checkbox-all')
+    console.log(checkboxAll)
+    var courseItemCheckbox = $('input[name="courseIds[]"]')
+    console.log(courseItemCheckbox)
+    checkboxAll.change(function(){
+      console.log(Math.random())
+      console.log($(this))//lấy chính element click vào 
+      console.log($(this).prop('checked'))//true/false
+      var isCheckedAll = $(this).prop('checked');
+      courseItemCheckbox.prop('checked', isCheckedAll);
+      //nếu check tất cả là true thì các con là true 
+      /*
+      if(isCheckedAll){
+        courseItemCheckbox.prop('checked', true);
+      }else{
+        courseItemCheckbox.prop('checked', false);
+      }*/
+
+      //Course item checkbox changed
+      courseItemCheckbox.change(function() {
+        var isCheckedAll = courseItemCheckbox.length === $('input[name="courseIds[]"]:checked').length
+        console.log(isCheckedAll + " bang nhau")
+        checkboxAll.prop('checked', isCheckedAll)
+      })
+
+    })
+
   })
 </script>
