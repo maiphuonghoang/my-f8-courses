@@ -6,6 +6,7 @@ class MeController {
     storedCourses(req, res, next){
         let courseQuery = Course.find({})
         
+        // BASIC SORT 
         if(req.query.hasOwnProperty('_sort')){
             //res.json({message:'successfully'})
             courseQuery = courseQuery.sort({
@@ -13,6 +14,8 @@ class MeController {
                 [req.query.column]: req.query.type
             })
         }
+        
+        //console.log(res.json(res.locals._sort))
 
         /*
         Course.countDocumentsDeleted()

@@ -5,7 +5,7 @@ const handlebars = require('express-handlebars').engine;
 const methodOverride = require('method-override');
 const app = express();
 const port = 3000;
-
+const SortMiddleware = require('./app/middlewares/SortMiddleware')
 const route = require('./routes');
 const db = require('./config/db')
 
@@ -21,6 +21,26 @@ app.engine('hbs',
   extname:".hbs",
   helpers: {
     sum: (a, b) => a + b,
+    sortable: (field, sort)=>{
+      const sortType = field === sort.column ? sort.type : 'default'
+
+      const icons = {
+        default: 'oi oi-elevator',
+        asc: 'oi oi-sort-ascending',
+        desc: 'oi oi-sort-descending'
+      } 
+      const icon = icons[sortType];
+
+      const types = {
+        default: 'desc',
+        asc: 'desc',
+        desc: 'asc',
+      }
+      const type = types[sortType]
+      return `<a href="?_sort&column=${field}&type=${type}">
+      <span class="${icon}"></span>
+    </a>`
+    }
   }
   // Custom helper in handlebars.js, express-handlebars.js
   // Express-handlebars override lại và cung cấp 1 key là helpers khi tạo instance của handlebars  
@@ -46,6 +66,7 @@ app.use(express.json())//XMLHttpRequest, fetch, axios
 //middleware điều hướng method mong muốn 
 app.use(methodOverride('_method'))
 
+//Custom middlewares
 app.get('/middleware', 
   function (req, res, next) {
     if(['vethuong', 'vevip'].includes(req.query.ve)){
@@ -63,6 +84,8 @@ app.get('/middleware',
     })
   }
 )
+
+app.use(SortMiddleware)
 
 // Routes init 
 route(app);
