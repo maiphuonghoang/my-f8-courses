@@ -1,4 +1,4 @@
-<div class="mt-4">
+<form name="container-form" method="POST" class="mt-4">
   <h3>Khóa học của tôi</h3>
   <a href="/me/trash/courses">Thùng rác ({{deletedCount}})</a>
 
@@ -57,7 +57,7 @@
       {{/each}}
     </tbody>
   </table>
-</div>
+</form>
 
 {{!-- Delete hidden form --}}
 
@@ -150,7 +150,19 @@
         console.log(checkAllSubmitBtn)
 
       }
-
     }
+
+    //Form submit when check all submit button clicked
+    var containerForm = document.forms['container-form']
+    console.log(containerForm)
+      checkAllSubmitBtn.click(function (e) {
+        console.log(1234)
+        e.preventDefault()
+        //khi  có quyền submit nghĩa là k có class disable 
+        var isSubmittable = !$(this).hasClass('disabled')
+        console.log("co quyen submit? " + isSubmittable)
+        if (isSubmittable)  containerForm.submit()
+          
+     })
   })
 </script>
