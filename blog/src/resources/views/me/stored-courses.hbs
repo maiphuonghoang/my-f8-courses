@@ -1,17 +1,17 @@
-<form name="container-form" method="POST" class="mt-4">
+<form name="container-form" method="POST" action="/courses/handle-form-actions" class="mt-4">
   <h3>Khóa học của tôi</h3>
   <a href="/me/trash/courses">Thùng rác ({{deletedCount}})</a>
 
   <div class="mt-4 d-flex align-items-center">
     <div class="form-check">
-      <input class="form-check-input" type="checkbox" value="" id="checkbox-all">
+      <input class="form-check-input" type="checkbox" id="checkbox-all">
       <label class="form-check-label" for="checkbox-all">
         Chọn tất cả
       </label>
     </div>
-    <select class="form-control form-control-sm checkbox-select-all">
-      <option>-- Hành động --</option>
-      <option>Xóa</option>
+    <select class="form-control form-control-sm checkbox-select-all" name="action" required>
+      <option value="">-- Hành động --</option>
+      <option value="delete">Xóa</option>
     </select>
     <button class="check-all-submit-btn btn btn-primary btn-sm disabled">Thực hiện</button>
   </div>
@@ -155,14 +155,20 @@
     //Form submit when check all submit button clicked
     var containerForm = document.forms['container-form']
     console.log(containerForm)
-      checkAllSubmitBtn.click(function (e) {
-        console.log(1234)
-        e.preventDefault()
-        //khi  có quyền submit nghĩa là k có class disable 
-        var isSubmittable = !$(this).hasClass('disabled')
-        console.log("co quyen submit? " + isSubmittable)
-        if (isSubmittable)  containerForm.submit()
-          
-     })
+    /*
+    checkAllSubmitBtn.click(function (e) {
+      console.log(1234)
+      e.preventDefault()
+      //khi  có quyền submit nghĩa là k có class disable 
+      var isSubmittable = !$(this).hasClass('disabled')
+      console.log("co quyen submit? " + isSubmittable)
+      if (isSubmittable)
+        containerForm.submit()
+    })
+    */
+    checkAllSubmitBtn.on('submit', function (e) {
+      var isSubmittable = !$(this).hasClass('disabled')
+      if (!isSubmittable) e.preventDefault()
+    })
   })
 </script>
