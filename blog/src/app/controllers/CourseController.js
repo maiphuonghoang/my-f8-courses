@@ -48,7 +48,7 @@ class CourseController {
     // res.json(req.body)
     // mongoose Models Updating
     Course.updateOne({ _id: req.params.id }, req.body)
-      .then(() => res.redirect("/me/stored-courses"))
+      .then(() => res.redirect("/me/stored/courses"))
       .catch(next);
   }
   // [DELETE] /courses/:id => HARD DELETE 

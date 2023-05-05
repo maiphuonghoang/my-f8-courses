@@ -13,7 +13,8 @@
       <option value="">-- Hành động --</option>
       <option value="delete">Xóa</option>
     </select>
-    <button class="check-all-submit-btn btn btn-primary btn-sm disabled">Thực hiện</button>
+    <button class="check-all-submit-btn btn btn-primary btn-sm" disabled = "disabled">Thực hiện</button>
+      {{!-- đoạn này không dùng class disable mà dùng attribute disabled (không tương tác được gì luôn)--}}
   </div>
 
   <table class="table mt-4">
@@ -142,18 +143,19 @@
     function renderCheckAllSubmitBtn() {
       var checkedCount = $('input[name="courseIds[]"]:checked').length
       if (checkedCount > 0) {
-        checkAllSubmitBtn.removeClass('disabled')
+        checkAllSubmitBtn.removeAttr('disabled')
         console.log(checkAllSubmitBtn)
 
       } else {
-        checkAllSubmitBtn.addClass('disabled')
+        checkAllSubmitBtn.attr('disabled', true)
         console.log(checkAllSubmitBtn)
 
       }
     }
 
     //Form submit when check all submit button clicked
-    var containerForm = document.forms['container-form']
+    //var containerForm = document.forms['container-form']
+    var containerForm = $('form[name="container-form"')
     console.log(containerForm)
     /*
     checkAllSubmitBtn.click(function (e) {
@@ -166,9 +168,14 @@
         containerForm.submit()
     })
     */
-    checkAllSubmitBtn.on('submit', function (e) {
-      var isSubmittable = !$(this).hasClass('disabled')
+
+    /*
+    containerForm.on('submit', function (e) {
+      var isSubmittable = !checkAllSubmitBtn.hasClass('disabled')
       if (!isSubmittable) e.preventDefault()
-    })
+    }) => Cách này vẫn còn bug là nút Thực hiện dù disable vẫn có các thao tác khác 
+    */
+
+
   })
 </script>
