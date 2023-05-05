@@ -13,7 +13,7 @@
       <option>-- Hành động --</option>
       <option>Xóa</option>
     </select>
-    <button class="btn btn-primary btn-sm disabled">Thực hiện</button>
+    <button class="check-all-submit-btn btn btn-primary btn-sm disabled">Thực hiện</button>
   </div>
 
   <table class="table mt-4">
@@ -33,7 +33,7 @@
         {{!-- dùng helpers mà template engine hỗ trợ --}}
         <td>
           <div class="form-check">
-            <input class="form-check-input" type="checkbox" name="courseIds[]" value="{{this._id}}" id="">           
+            <input class="form-check-input" type="checkbox" name="courseIds[]" value="{{this._id}}" id="">
           </div>
         </td>
         <td scope="row">{{sum @index 1}}</td>
@@ -109,7 +109,7 @@
     console.log(checkboxAll)
     var courseItemCheckbox = $('input[name="courseIds[]"]')
     console.log(courseItemCheckbox)
-    checkboxAll.change(function(){
+    checkboxAll.change(function () {
       console.log(Math.random())
       console.log($(this))//lấy chính element click vào 
       console.log($(this).prop('checked'))//true/false
@@ -123,14 +123,34 @@
         courseItemCheckbox.prop('checked', false);
       }*/
 
-      //Course item checkbox changed
-      courseItemCheckbox.change(function() {
-        var isCheckedAll = courseItemCheckbox.length === $('input[name="courseIds[]"]:checked').length
-        console.log(isCheckedAll + " bang nhau")
-        checkboxAll.prop('checked', isCheckedAll)
-      })
-
+      //khi check thì gọi hàm đếm 
+      renderCheckAllSubmitBtn()
     })
 
+    //Course item checkbox changed
+    courseItemCheckbox.change(function () {
+      var isCheckedAll = courseItemCheckbox.length === $('input[name="courseIds[]"]:checked').length
+      console.log(isCheckedAll + " bang nhau")
+      checkboxAll.prop('checked', isCheckedAll)
+      //khi check thì gọi hàm đếm 
+      renderCheckAllSubmitBtn()
+    })
+
+    //Re-render check all submit button
+    var checkAllSubmitBtn = $('.check-all-submit-btn')
+    //console.log(checkAllSubmitBtn)
+    function renderCheckAllSubmitBtn() {
+      var checkedCount = $('input[name="courseIds[]"]:checked').length
+      if (checkedCount > 0) {
+        checkAllSubmitBtn.removeClass('disabled')
+        console.log(checkAllSubmitBtn)
+
+      } else {
+        checkAllSubmitBtn.addClass('disabled')
+        console.log(checkAllSubmitBtn)
+
+      }
+
+    }
   })
 </script>
