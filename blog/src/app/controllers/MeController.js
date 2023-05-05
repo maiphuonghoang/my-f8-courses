@@ -4,6 +4,16 @@ class MeController {
 
     //[GET] /me/stored/courses 
     storedCourses(req, res, next){
+        let courseQuery = Course.find({})
+        
+        if(req.query.hasOwnProperty('_sort')){
+            //res.json({message:'successfully'})
+            courseQuery = courseQuery.sort({
+                //name: 'desc'
+                [req.query.column]: req.query.type
+            })
+        }
+
         /*
         Course.countDocumentsDeleted()
             .then((deletedCount)=>{
@@ -21,13 +31,15 @@ class MeController {
        
         //hai phương thức trên bất đồng bộ nên gộp thành Promise.all 
         //mảng các promise 
-        Promise.all([Course.find({}), Course.countDocumentsDeleted()])
+        Promise.all([courseQuery, Course.countDocumentsDeleted()])
             .then(([courses, deletedCount])=> //destructuring 
                 res.render('me/stored-courses', {
                     deletedCount,
                     courses: multipleMongooseToObject(courses)
                 })
             )
+
+
     }
 
         // [GET] /me/trash/courses 

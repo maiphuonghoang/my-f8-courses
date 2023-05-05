@@ -2,15 +2,15 @@
 
 ### Ý nghĩa 
 - Phần mềm trung gian (đứng giữa các thành phần trong mô hình phần mềm)
-Brower (client) =========== Resquest ========> Server (Node)
+* Brower (client) =========== Resquest ========> Server (Node)
 
-Brower (client) <========== Response ========= Server (Node)
+* Brower (client) <========== Response ========= Server (Node)
 
 ### Vai trò 
 - Giống như bác bảo vệ 
-Nhà ==================> Bác bảo vệ 1 (middleware 1): Bác bảo vệ 2 (middleware 2): Sự kiện (soát vé)
+* Nhà ==================> Bác bảo vệ 1 (middleware 1): Bác bảo vệ 2 (middleware 2): Sự kiện (soát vé)
 
-Nhà <================== Sự kiện 
+* Nhà <================== Sự kiện 
 
 1. Soát vé (kiểm soát -> Validation)
 2. Không cho vào 
