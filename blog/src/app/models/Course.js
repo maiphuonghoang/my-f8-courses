@@ -5,7 +5,7 @@ const ObjectId = Schema.ObjectId;
 const slug = require("mongoose-slug-updater");
 const mongooseDelete = require("mongoose-delete");
 
-const Course = new Schema(
+const CourseSchema = new Schema(
   {
     name: { type: String, require: true },
     description: { type: String },
@@ -21,10 +21,24 @@ const Course = new Schema(
   }
 );
 
+//Custom query helpers
+CourseSchema.query.sortable = function (req) {
+  // BASIC SORT
+  if (req.query.hasOwnProperty("_sort")) {
+    const isValidtype = ["asc", "desc"].includes(req.query.type);
+    // res.json({message:'successfully'})
+    return this.sort({
+      //name: 'desc'
+      [req.query.column]: isValidtype ? req.query.type : "desc",
+    });
+  }
+  return this;
+};
+
 //  Add plugin
 mongoose.plugin(slug);
-Course.plugin(mongooseDelete, {
+CourseSchema.plugin(mongooseDelete, {
   overrideMethods: "all", // show only the document that deleted attribute = false,
   deletedAt: true, // add attribute time when delete
 }),
-  (module.exports = mongoose.model("Course", Course));
+  (module.exports = mongoose.model("Course", CourseSchema));

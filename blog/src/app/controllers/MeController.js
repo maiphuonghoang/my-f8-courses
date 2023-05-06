@@ -4,16 +4,6 @@ class MeController {
 
     //[GET] /me/stored/courses 
     storedCourses(req, res, next){
-        let courseQuery = Course.find({})
-        
-        // BASIC SORT 
-        if(req.query.hasOwnProperty('_sort')){
-            //res.json({message:'successfully'})
-            courseQuery = courseQuery.sort({
-                //name: 'desc'
-                [req.query.column]: req.query.type
-            })
-        }
         
         //console.log(res.json(res.locals._sort))
 
@@ -34,7 +24,7 @@ class MeController {
        
         //hai phương thức trên bất đồng bộ nên gộp thành Promise.all 
         //mảng các promise 
-        Promise.all([courseQuery, Course.countDocumentsDeleted()])
+        Promise.all([Course.find({}).sortable(req), Course.countDocumentsDeleted()])
             .then(([courses, deletedCount])=> //destructuring 
                 res.render('me/stored-courses', {
                     deletedCount,

@@ -19,29 +19,7 @@ db.connect();
 app.engine('hbs', 
   handlebars({
   extname:".hbs",
-  helpers: {
-    sum: (a, b) => a + b,
-    sortable: (field, sort)=>{
-      const sortType = field === sort.column ? sort.type : 'default'
-
-      const icons = {
-        default: 'oi oi-elevator',
-        asc: 'oi oi-sort-ascending',
-        desc: 'oi oi-sort-descending'
-      } 
-      const icon = icons[sortType];
-
-      const types = {
-        default: 'desc',
-        asc: 'desc',
-        desc: 'asc',
-      }
-      const type = types[sortType]
-      return `<a href="?_sort&column=${field}&type=${type}">
-      <span class="${icon}"></span>
-    </a>`
-    }
-  }
+  helpers: require('./helpers/handlebars')
   // Custom helper in handlebars.js, express-handlebars.js
   // Express-handlebars override lại và cung cấp 1 key là helpers khi tạo instance của handlebars  
 
