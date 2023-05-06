@@ -24,11 +24,12 @@ class CourseController {
     // console.log(res.json(req.body));
     // const formData = {...req.body};
     req.body.image = `https://img.youtube.com/vi/${req.body.videoId}/sddefault.jpg`;
+    req.body._id=1;
     const course = new Course(req.body); //đưa đối tượng {} muốn lưu vào
     course
       .save()
       .then(() => res.redirect("/me/stored/courses"))
-      .catch((err) => {});
+      .catch(next);
   }
 
   // [GET] /courses/:id/edit
@@ -50,7 +51,7 @@ class CourseController {
     Course.updateOne({ _id: req.params.id }, req.body)
       .then(() => res.redirect("/me/stored/courses"))
       .catch(next);
-  }
+  } 
   // [DELETE] /courses/:id => HARD DELETE 
   destroyH(req, res, next) {
     Course.deleteOne({ _id: req.params.id })

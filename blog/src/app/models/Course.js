@@ -6,7 +6,7 @@ const slug = require("mongoose-slug-updater");
 const mongooseDelete = require("mongoose-delete");
 
 const CourseSchema = new Schema(
-  {
+  { _id: {type: Number},
     name: { type: String, require: true },
     description: { type: String },
     image: { type: String },
@@ -17,6 +17,7 @@ const CourseSchema = new Schema(
     slug: { type: String, slug: "name", unique: true },
   },
   {
+    _id: false,
     timestamps: true,
   }
 );
