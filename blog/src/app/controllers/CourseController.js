@@ -24,12 +24,18 @@ class CourseController {
     // console.log(res.json(req.body));
     // const formData = {...req.body};
     req.body.image = `https://img.youtube.com/vi/${req.body.videoId}/sddefault.jpg`;
-    req.body._id=1;
-    const course = new Course(req.body); //đưa đối tượng {} muốn lưu vào
-    course
-      .save()
-      .then(() => res.redirect("/me/stored/courses"))
-      .catch(next);
+
+    Course.findOne({})
+      .sort({ _id: "asc" })
+      .then((latestCourse) => {
+        //return res.json(latestCourse)
+        req.body._id = latestCourse._id + 1;
+        const course = new Course(req.body); //đưa đối tượng {} muốn lưu vào
+        course
+          .save()
+          .then(() => res.redirect("/me/stored/courses"))
+          .catch(next);
+      });
   }
 
   // [GET] /courses/:id/edit
@@ -51,14 +57,14 @@ class CourseController {
     Course.updateOne({ _id: req.params.id }, req.body)
       .then(() => res.redirect("/me/stored/courses"))
       .catch(next);
-  } 
-  // [DELETE] /courses/:id => HARD DELETE 
+  }
+  // [DELETE] /courses/:id => HARD DELETE
   destroyH(req, res, next) {
     Course.deleteOne({ _id: req.params.id })
       .then(() => res.redirect("back"))
       .catch(next);
   }
-  
+
   // [DELETE] /courses/:id => SOFT DELETE
   destroy(req, res, next) {
     Course.delete({ _id: req.params.id }) // add/set attribute delete:true
@@ -68,14 +74,14 @@ class CourseController {
 
   // [PATCH] /courses/:id/restore => SOFT DELETE
   restore(req, res, next) {
-    Course.restore({ _id: req.params.id }) 
+    Course.restore({ _id: req.params.id })
       .then(() => res.redirect("back"))
       .catch(next);
   }
 
   // [DELETE] /courses/:id/force => SOFT DELETE
   forceDestroy(req, res, next) {
-    Course.deleteOne({ _id: req.params.id }) //the same hard delete 
+    Course.deleteOne({ _id: req.params.id }) //the same hard delete
       .then(() => res.redirect("back"))
       .catch(next);
   }
@@ -83,18 +89,16 @@ class CourseController {
   // [POST] /courses/handle-form-actions
   handleFormActions(req, res, next) {
     // res.json(req.body);
-    switch(req.body.action){
-      case 'delete':         
-        //xóa mềm 1 mảng các course 
-        Course.delete({ _id: {$in: req.body.courseIds} }) 
+    switch (req.body.action) {
+      case "delete":
+        //xóa mềm 1 mảng các course
+        Course.delete({ _id: { $in: req.body.courseIds } })
           .then(() => res.redirect("back"))
           .catch(next);
         break;
       default:
-        res.json({message: 'Action invalid'})
+        res.json({ message: "Action invalid" });
     }
   }
-
-
 }
 module.exports = new CourseController();
